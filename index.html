@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corporate Digital Friction & ROI Simulator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </div>
+
+    <div class="app-wrapper">
+        <header class="header-actions no-print">
+            <div class="header-title">
+                <div class="logo-dots">
+                    <span></span><span></span><span></span>
+                </div>
+                Enterprise ROI Simulator V2.5
+            </div>
+            <div class="privacy-badge">
+                <span class="icon">🔒</span> <strong>Privacy First</strong> | No Surveillance
+            </div>
+            <button onclick="window.print()" class="export-btn">📄 Export Business Case</button>
+        </header>
+
+        <div class="dashboard-container">
+            <div class="left-column no-print">
+                
+                <div class="glass-panel">
+                    <div class="panel-header">
+                        <span class="icon">👥</span>
+                        <div>
+                            <h3>1. Workforce Fundamentals</h3>
+                            <p>Baseline scale and compensation parameters.</p>
+                        </div>
+                    </div>
+                    
+                    <label>Total Employees</label>
+                    <input type="number" id="inp-employees" value="250" oninput="calculateAll()">
+                    
+                    <div class="input-row">
+                        <div class="input-half">
+                            <label>Avg. Base Salary (€)</label>
+                            <input type="number" id="inp-salary" value="45000" oninput="calculateAll()">
+                        </div>
+                        <div class="input-half">
+                            <label>Burden Factor 
+                                <span class="tooltip" data-tip="Multiplier including taxes, benefits, and overhead. Standard is 1.2 to 1.4.">ⓘ</span>
+                            </label>
+                            <input type="number" id="inp-burden" step="0.1" value="1.3" oninput="calculateAll()">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel">
+                    <div class="panel-header">
+                        <span class="icon">⏱️</span>
+                        <div>
+                            <h3>2. Cognitive Load & Friction</h3>
+                            <p>Frequency and severity of interruptions.</p>
+                        </div>
+                    </div>
+
+                    <label>Role Complexity 
+                        <span class="tooltip" data-tip="Based on Gloria Mark's research: time required to regain deep focus after a distraction.">ⓘ</span>
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-card">
+                            <input type="radio" name="complexity" value="5" onchange="calculateAll()">
+                            <div class="radio-content">
+                                <span class="radio-circle"></span>
+                                <div>
+                                    <h4>Low</h4>
+                                    <p>Simple Tasks - 5m recovery</p>
+                                </div>
+                            </div>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="complexity" value="12" onchange="calculateAll()">
+                            <div class="radio-content">
+                                <span class="radio-circle"></span>
+                                <div>
+                                    <h4>Medium</h4>
+                                    <p>Standard Knowledge Work - 12m recovery</p>
+                                </div>
+                            </div>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="complexity" value="25" checked onchange="calculateAll()">
+                            <div class="radio-content">
+                                <span class="radio-circle"></span>
+                                <div>
+                                    <h4>High</h4>
+                                    <p>Deep Focus/Engineering - 25m recovery</p>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="slider-header">
+                        <label>Daily Digital Pings/Checks</label>
+                        <span class="slider-val"><span id="ping-val">15</span> / day</span>
+                    </div>
+                    <input type="range" id="inp-pings" class="custom-slider" min="1" max="100" value="15" oninput="updatePingLabel(); calculateAll()">
+                </div>
+
+                <div class="glass-panel">
+                    <div class="panel-header">
+                        <span class="icon">🏢</span>
+                        <div>
+                            <h3>3. Retention & Output</h3>
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="input-half">
+                            <label>Est. Turnover due to Fatigue (%)
+                                <span class="tooltip" data-tip="Percentage of workforce expected to quit yearly specifically due to digital burnout.">ⓘ</span>
+                            </label>
+                            <input type="number" id="inp-turnover" step="0.1" value="3.0" oninput="calculateAll()">
+                        </div>
+                        <div class="input-half">
+                            <label>Output Unit Name</label>
+                            <input type="text" id="inp-unit-name" value="Software Features" oninput="calculateAll()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-column">
+                
+                <div class="glass-panel total-card glow-border">
+                    <div class="total-content">
+                        <h4>TOTAL FINANCIAL LEAK (ANNUAL)</h4>
+                        <p>Combination of lost focus and turnover cost.</p>
+                        <h1 id="out-total" class="gradient-text">€0</h1>
+                        <p class="coi-text">5-Year Cost of Inaction (COI): <span id="out-5year">€0</span></p>
+                    </div>
+                    <div class="bank-icon">🏛️</div>
+                </div>
+
+                <div class="grid-2-cols">
+                    <div class="glass-panel stat-card">
+                        <p>Productivity Loss</p>
+                        <h2 id="out-prod-loss">€0</h2>
+                    </div>
+                    <div class="glass-panel stat-card">
+                        <p>Turnover Risk Cost</p>
+                        <h2 id="out-turnover-cost">€0</h2>
+                    </div>
+                </div>
+
+                <div class="grid-2-cols chart-row">
+                    <div class="glass-panel chart-card flex-center">
+                        <div class="chart-container">
+                            <div class="doughnut" id="doughnut-chart">
+                                <div class="inner-circle"></div>
+                            </div>
+                            <div class="chart-legend">
+                                <div><span class="dot red"></span> Productivity</div>
+                                <div><span class="dot orange"></span> Turnover</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel bottom-card flex-col-center">
+                        <div class="card-inner-content">
+                            <p>Equivalent Output Lost</p>
+                            <h2 id="out-units" class="text-warning">0</h2>
+                            <p class="unit-label" id="display-unit-name">SOFTWARE FEATURES</p>
+                        </div>
+                        <div class="trend-icon">📉</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
