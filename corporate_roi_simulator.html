@@ -1,0 +1,218 @@
+
+<style>
+h2.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+.sim-root{padding:1rem 0;font-size:14px}
+.sim-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;gap:8px;flex-wrap:wrap}
+.sim-title{font-size:15px;font-weight:500;color:var(--color-text-primary);display:flex;align-items:center;gap:8px}
+.privacy-tag{font-size:11px;color:var(--color-text-secondary);background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);padding:4px 10px;border-radius:20px;display:flex;align-items:center;gap:4px}
+.export-btn{font-size:12px;padding:6px 14px;cursor:pointer;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:transparent;color:var(--color-text-primary);display:flex;align-items:center;gap:6px}
+.export-btn:hover{background:var(--color-background-secondary)}
+.sim-layout{display:grid;grid-template-columns:1fr 1.7fr;gap:16px}
+.panel{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:16px;margin-bottom:14px}
+.panel-title{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.panel-title i{font-size:16px;color:var(--color-text-secondary)}
+.panel-title h3{font-size:13px;font-weight:500;color:var(--color-text-primary);margin:0}
+.panel-title p{font-size:11px;color:var(--color-text-secondary);margin:2px 0 0}
+.field-label{font-size:12px;color:var(--color-text-secondary);margin-bottom:5px;display:flex;align-items:center;gap:6px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+input[type=number],input[type=text]{margin-bottom:12px}
+.tip-icon{color:var(--color-text-tertiary);cursor:help;position:relative;font-size:13px}
+.tip-icon[data-t]:hover::after{content:attr(data-t);position:absolute;left:50%;transform:translateX(-50%);bottom:130%;background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);color:var(--color-text-primary);padding:8px 12px;border-radius:var(--border-radius-md);font-size:11px;white-space:normal;width:200px;text-align:left;z-index:10;pointer-events:none}
+.radio-group{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.radio-card{cursor:pointer}
+.radio-card input{display:none}
+.radio-body{display:flex;align-items:center;gap:10px;padding:9px 12px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);background:var(--color-background-secondary);transition:border-color 0.15s}
+.radio-dot{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--color-border-secondary);flex-shrink:0;position:relative}
+.radio-card input:checked + .radio-body{border-color:var(--color-border-primary);background:var(--color-background-primary)}
+.radio-card input:checked + .radio-body .radio-dot::after{content:'';position:absolute;top:3px;left:3px;width:6px;height:6px;background:var(--color-text-primary);border-radius:50%}
+.radio-body h4{font-size:12px;font-weight:500;color:var(--color-text-primary);margin:0}
+.radio-body p{font-size:11px;color:var(--color-text-secondary);margin:1px 0 0}
+.slider-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.slider-label{font-size:12px;color:var(--color-text-secondary)}
+.slider-val{font-size:12px;font-weight:500;color:var(--color-text-primary)}
+.total-card{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:20px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;position:relative;overflow:hidden;border-top:2px solid #E24B4A}
+.total-label{font-size:11px;color:var(--color-text-secondary);letter-spacing:0.5px;margin-bottom:4px}
+.total-amount{font-size:36px;font-weight:500;color:#A32D2D;margin:0 0 4px}
+.coi-line{font-size:12px;color:#A32D2D;opacity:0.8}
+.total-icon{font-size:40px;opacity:0.12;color:var(--color-text-primary)}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.stat-card{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:14px}
+.stat-card p{font-size:11px;color:var(--color-text-secondary);margin:0 0 5px}
+.stat-card h2{font-size:20px;font-weight:500;color:var(--color-text-primary);margin:0}
+.bottom-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.chart-card{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:16px;display:flex;align-items:center;justify-content:center}
+.donut-wrap{display:flex;align-items:center;gap:20px}
+.donut{width:100px;height:100px;border-radius:50%;display:flex;justify-content:center;align-items:center}
+.donut-hole{width:68px;height:68px;border-radius:50%;background:var(--color-background-secondary)}
+.legend{display:flex;flex-direction:column;gap:8px;font-size:11px;color:var(--color-text-secondary)}
+.legend-row{display:flex;align-items:center;gap:6px}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.output-card{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:16px;display:flex;justify-content:space-between;align-items:center}
+.out-num{font-size:28px;font-weight:500;color:#BA7517;margin:4px 0}
+.out-unit{font-size:10px;color:var(--color-text-tertiary);letter-spacing:0.8px;text-transform:uppercase}
+.trend-ico{font-size:32px;opacity:0.2;color:var(--color-text-primary)}
+@media(max-width:640px){.sim-layout{grid-template-columns:1fr}.stat-grid{grid-template-columns:1fr 1fr}.bottom-grid{grid-template-columns:1fr 1fr}}
+</style>
+
+<h2 class="sr-only">Enterprise ROI simulator: calculates annual financial loss from digital friction and employee turnover based on workforce inputs.</h2>
+
+<div class="sim-root">
+  <div class="sim-header">
+    <div class="sim-title">
+      <i class="ti ti-chart-dots-3" aria-hidden="true"></i>
+      Enterprise ROI simulator
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <div class="privacy-tag"><i class="ti ti-lock" aria-hidden="true"></i> Privacy first · no surveillance</div>
+      <button class="export-btn" onclick="window.print()"><i class="ti ti-file-export" aria-hidden="true"></i> Export</button>
+    </div>
+  </div>
+
+  <div class="sim-layout">
+    <div>
+      <div class="panel">
+        <div class="panel-title">
+          <i class="ti ti-users" aria-hidden="true"></i>
+          <div><h3>Workforce fundamentals</h3><p>Baseline scale and compensation</p></div>
+        </div>
+        <div class="field-label">Total employees</div>
+        <input type="number" id="inp-employees" value="250" oninput="calcAll()">
+        <div class="field-row">
+          <div>
+            <div class="field-label">Avg. base salary (€)</div>
+            <input type="number" id="inp-salary" value="45000" oninput="calcAll()">
+          </div>
+          <div>
+            <div class="field-label">Burden factor <span class="tip-icon" data-t="Multiplier for taxes, benefits, and overhead. Standard range: 1.2–1.4."><i class="ti ti-info-circle" aria-hidden="true"></i></span></div>
+            <input type="number" id="inp-burden" step="0.1" value="1.3" oninput="calcAll()">
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">
+          <i class="ti ti-brain" aria-hidden="true"></i>
+          <div><h3>Cognitive load &amp; friction</h3><p>Interruption frequency and severity</p></div>
+        </div>
+        <div class="field-label">Role complexity <span class="tip-icon" data-t="Based on Gloria Mark's research: time to regain deep focus after a distraction."><i class="ti ti-info-circle" aria-hidden="true"></i></span></div>
+        <div class="radio-group">
+          <label class="radio-card">
+            <input type="radio" name="cmplx" value="5" onchange="calcAll()">
+            <div class="radio-body"><span class="radio-dot"></span><div><h4>Low</h4><p>Simple tasks · 5m recovery</p></div></div>
+          </label>
+          <label class="radio-card">
+            <input type="radio" name="cmplx" value="12" onchange="calcAll()">
+            <div class="radio-body"><span class="radio-dot"></span><div><h4>Medium</h4><p>Knowledge work · 12m recovery</p></div></div>
+          </label>
+          <label class="radio-card">
+            <input type="radio" name="cmplx" value="25" checked onchange="calcAll()">
+            <div class="radio-body"><span class="radio-dot"></span><div><h4>High</h4><p>Deep focus / engineering · 25m recovery</p></div></div>
+          </label>
+        </div>
+        <div class="slider-row">
+          <span class="slider-label">Daily digital pings / checks</span>
+          <span class="slider-val"><span id="ping-disp">15</span> / day</span>
+        </div>
+        <input type="range" id="inp-pings" min="1" max="100" value="15" step="1" oninput="document.getElementById('ping-disp').textContent=this.value;calcAll()">
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">
+          <i class="ti ti-building" aria-hidden="true"></i>
+          <div><h3>Retention &amp; output</h3></div>
+        </div>
+        <div class="field-row">
+          <div>
+            <div class="field-label">Turnover from fatigue (%) <span class="tip-icon" data-t="% of workforce expected to quit yearly due to digital burnout."><i class="ti ti-info-circle" aria-hidden="true"></i></span></div>
+            <input type="number" id="inp-turnover" step="0.1" value="3.0" oninput="calcAll()">
+          </div>
+          <div>
+            <div class="field-label">Output unit name</div>
+            <input type="text" id="inp-unit" value="Software features" oninput="calcAll()">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="total-card">
+        <div>
+          <div class="total-label">TOTAL FINANCIAL LEAK (ANNUAL)</div>
+          <div class="total-amount" id="out-total">€0</div>
+          <div class="coi-line">5-year cost of inaction: <span id="out-5yr">€0</span></div>
+        </div>
+        <i class="ti ti-building-bank total-icon" aria-hidden="true"></i>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <p>Productivity loss</p>
+          <h2 id="out-prod">€0</h2>
+        </div>
+        <div class="stat-card">
+          <p>Turnover risk cost</p>
+          <h2 id="out-turn">€0</h2>
+        </div>
+      </div>
+
+      <div class="bottom-grid">
+        <div class="chart-card">
+          <div class="donut-wrap">
+            <div class="donut" id="donut" style="background:conic-gradient(#E24B4A calc(var(--pct,70) * 1%),#BA7517 0)">
+              <div class="donut-hole"></div>
+            </div>
+            <div class="legend">
+              <div class="legend-row"><span class="dot" style="background:#E24B4A"></span> Productivity</div>
+              <div class="legend-row"><span class="dot" style="background:#BA7517"></span> Turnover</div>
+              <div style="margin-top:6px;font-size:11px;color:var(--color-text-primary)" id="pct-label">70% / 30%</div>
+            </div>
+          </div>
+        </div>
+        <div class="output-card">
+          <div>
+            <p style="font-size:11px;color:var(--color-text-secondary);margin:0">Equivalent output lost</p>
+            <div class="out-num" id="out-units">0</div>
+            <div class="out-unit" id="out-unit-label">SOFTWARE FEATURES</div>
+          </div>
+          <i class="ti ti-trending-down trend-ico" aria-hidden="true"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const fmtEur = new Intl.NumberFormat('en-IE',{style:'currency',currency:'EUR',maximumFractionDigits:0});
+const fmtNum = new Intl.NumberFormat('en-US');
+function calcAll(){
+  const employees = parseFloat(document.getElementById('inp-employees').value)||0;
+  const base = parseFloat(document.getElementById('inp-salary').value)||0;
+  const burden = parseFloat(document.getElementById('inp-burden').value)||1;
+  const cmplx = parseFloat((document.querySelector('input[name="cmplx"]:checked')||{value:25}).value)||0;
+  const pings = parseFloat(document.getElementById('inp-pings').value)||0;
+  const turnPct = parseFloat(document.getElementById('inp-turnover').value)||0;
+  const unitName = document.getElementById('inp-unit').value||'Units';
+  document.getElementById('out-unit-label').textContent = unitName.toUpperCase();
+  const burdened = base * burden;
+  const payroll = employees * burdened;
+  const cpm = burdened / 105600;
+  const minsPerPing = 2 + cmplx;
+  const minsDay = minsPerPing * pings;
+  const minsYear = minsDay * 220 * employees;
+  const prodLoss = minsYear * cpm;
+  const turnCost = employees * (turnPct/100) * burdened;
+  const total = prodLoss + turnCost;
+  const coi5 = total * 5;
+  const lossPct = payroll > 0 ? total/payroll : 0;
+  const unitsLost = Math.round(employees * 100 * lossPct);
+  document.getElementById('out-prod').textContent = fmtEur.format(prodLoss);
+  document.getElementById('out-turn').textContent = fmtEur.format(turnCost);
+  document.getElementById('out-total').textContent = fmtEur.format(total);
+  document.getElementById('out-5yr').textContent = fmtEur.format(coi5);
+  document.getElementById('out-units').textContent = fmtNum.format(unitsLost);
+  let pPct = total > 0 ? Math.round((prodLoss/total)*100) : 70;
+  document.getElementById('donut').style.setProperty('--pct', pPct);
+  document.getElementById('pct-label').textContent = pPct+'% / '+(100-pPct)+'%';
+}
+calcAll();
+</script>
