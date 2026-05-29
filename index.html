@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Corporate Digital Friction & ROI Simulator</title>
+    <title>Enterprise ROI Simulator | Friction & Output</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -20,12 +21,14 @@
                 <div class="logo-dots">
                     <span></span><span></span><span></span>
                 </div>
-                Enterprise ROI Simulator V2.5
+                Enterprise ROI Simulator V3.1
             </div>
             <div class="privacy-badge">
-                <span class="icon">🔒</span> <strong>Privacy First</strong> | No Surveillance
+                <i class="fas fa-lock"></i> <strong>Privacy First</strong> | Audit Safe
             </div>
-            <button onclick="window.print()" class="export-btn">📄 Export Business Case</button>
+            <button onclick="window.print()" class="export-btn">
+                <i class="fas fa-file-arrow-down"></i> Export Business Case
+            </button>
         </header>
 
         <div class="dashboard-container">
@@ -33,7 +36,7 @@
                 
                 <div class="glass-panel">
                     <div class="panel-header">
-                        <span class="icon">👥</span>
+                        <i class="fas fa-users-viewfinder panel-icon-main"></i>
                         <div>
                             <h3>1. Workforce Fundamentals</h3>
                             <p>Baseline scale and compensation parameters.</p>
@@ -41,25 +44,36 @@
                     </div>
                     
                     <label>Total Employees</label>
-                    <input type="number" id="inp-employees" value="250" oninput="calculateAll()">
+                    <div class="input-with-icon">
+                        <i class="fas fa-user-group"></i>
+                        <input type="number" id="inp-employees" value="250" oninput="calculateAll()">
+                    </div>
                     
                     <div class="input-row">
                         <div class="input-half">
                             <label>Avg. Base Salary (€)</label>
-                            <input type="number" id="inp-salary" value="45000" oninput="calculateAll()">
+                            <div class="input-with-icon">
+                                <i class="fas fa-euro-sign"></i>
+                                <input type="number" id="inp-salary" value="45000" oninput="calculateAll()">
+                            </div>
                         </div>
                         <div class="input-half">
                             <label>Burden Factor 
-                                <span class="tooltip" data-tip="Multiplier including taxes, benefits, and overhead. Standard is 1.2 to 1.4.">ⓘ</span>
+                                <span class="tooltip" data-tip="Multiplier including taxes, benefits, and overhead. Standard is 1.2 to 1.4.">
+                                    <i class="fas fa-circle-info"></i>
+                                </span>
                             </label>
-                            <input type="number" id="inp-burden" step="0.1" value="1.3" oninput="calculateAll()">
+                            <div class="input-with-icon">
+                                <i class="fas fa-percent"></i>
+                                <input type="number" id="inp-burden" step="0.1" value="1.3" oninput="calculateAll()">
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="glass-panel">
                     <div class="panel-header">
-                        <span class="icon">⏱️</span>
+                        <i class="fas fa-brain-circuit panel-icon-main"></i>
                         <div>
                             <h3>2. Cognitive Load & Friction</h3>
                             <p>Frequency and severity of interruptions.</p>
@@ -67,7 +81,9 @@
                     </div>
 
                     <label>Role Complexity 
-                        <span class="tooltip" data-tip="Based on Gloria Mark's research: time required to regain deep focus after a distraction.">ⓘ</span>
+                        <span class="tooltip" data-tip="Based on Gloria Mark's research: time required to regain deep focus after a distraction.">
+                            <i class="fas fa-circle-info"></i>
+                        </span>
                     </label>
                     <div class="radio-group">
                         <label class="radio-card">
@@ -75,7 +91,7 @@
                             <div class="radio-content">
                                 <span class="radio-circle"></span>
                                 <div>
-                                    <h4>Low</h4>
+                                    <h4>Low Complexity</h4>
                                     <p>Simple Tasks - 5m recovery</p>
                                 </div>
                             </div>
@@ -85,8 +101,8 @@
                             <div class="radio-content">
                                 <span class="radio-circle"></span>
                                 <div>
-                                    <h4>Medium</h4>
-                                    <p>Standard Knowledge Work - 12m recovery</p>
+                                    <h4>Medium Complexity</h4>
+                                    <p>Standard Knowledge - 12m recovery</p>
                                 </div>
                             </div>
                         </label>
@@ -95,7 +111,7 @@
                             <div class="radio-content">
                                 <span class="radio-circle"></span>
                                 <div>
-                                    <h4>High</h4>
+                                    <h4>High Complexity</h4>
                                     <p>Deep Focus/Engineering - 25m recovery</p>
                                 </div>
                             </div>
@@ -111,15 +127,17 @@
 
                 <div class="glass-panel">
                     <div class="panel-header">
-                        <span class="icon">🏢</span>
+                        <i class="fas fa-building-user panel-icon-main"></i>
                         <div>
                             <h3>3. Retention & Output</h3>
                         </div>
                     </div>
                     <div class="input-row">
                         <div class="input-half">
-                            <label>Est. Turnover due to Fatigue (%)
-                                <span class="tooltip" data-tip="Percentage of workforce expected to quit yearly specifically due to digital burnout.">ⓘ</span>
+                            <label>Turnover due to Fatigue (%)
+                                <span class="tooltip" data-tip="Percentage of workforce expected to quit yearly specifically due to digital burnout.">
+                                    <i class="fas fa-circle-info"></i>
+                                </span>
                             </label>
                             <input type="number" id="inp-turnover" step="0.1" value="3.0" oninput="calculateAll()">
                         </div>
@@ -136,19 +154,21 @@
                 <div class="glass-panel total-card glow-border">
                     <div class="total-content">
                         <h4>TOTAL FINANCIAL LEAK (ANNUAL)</h4>
-                        <p>Combination of lost focus and turnover cost.</p>
+                        <p>Combined productivity & retention loss.</p>
                         <h1 id="out-total" class="gradient-text">€0</h1>
                         <p class="coi-text">5-Year Cost of Inaction (COI): <span id="out-5year">€0</span></p>
                     </div>
-                    <div class="bank-icon">🏛️</div>
+                    <div class="icon-professional-institution">
+                        <i class="fas fa-building-columns"></i>
+                    </div>
                 </div>
 
                 <div class="grid-2-cols">
-                    <div class="glass-panel stat-card">
+                    <div class="glass-panel stat-card border-red">
                         <p>Productivity Loss</p>
                         <h2 id="out-prod-loss">€0</h2>
                     </div>
-                    <div class="glass-panel stat-card">
+                    <div class="glass-panel stat-card border-orange">
                         <p>Turnover Risk Cost</p>
                         <h2 id="out-turnover-cost">€0</h2>
                     </div>
@@ -173,7 +193,9 @@
                             <h2 id="out-units" class="text-warning">0</h2>
                             <p class="unit-label" id="display-unit-name">SOFTWARE FEATURES</p>
                         </div>
-                        <div class="trend-icon">📉</div>
+                        <div class="icon-professional-output">
+                            <i class="fas fa-boxes-packing"></i>
+                        </div>
                     </div>
                 </div>
 
