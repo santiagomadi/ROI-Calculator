@@ -4,15 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enterprise ROI Simulator | Friction & Output</title>
-    <!-- Fuente Corporativa Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Librería de Iconos Profesionales Vectoriales -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Capas de fondo para el efecto de orbes difuminados -->
     <div class="bg-orbs">
         <div class="orb orb-1"></div>
         <div class="orb orb-2"></div>
@@ -35,10 +32,8 @@
         </header>
 
         <div class="dashboard-container">
-            <!-- PANEL IZQUIERDO: INPUTS (Oculto al imprimir) -->
             <div class="left-column no-print">
                 
-                <!-- Sección 1: Fundamentos -->
                 <div class="glass-panel">
                     <div class="panel-header">
                         <i class="fas fa-users-viewfinder panel-icon-main"></i>
@@ -76,7 +71,6 @@
                     </div>
                 </div>
 
-                <!-- Sección 2: Carga Cognitiva -->
                 <div class="glass-panel">
                     <div class="panel-header">
                         <i class="fas fa-brain-circuit panel-icon-main"></i>
@@ -131,35 +125,43 @@
                     <input type="range" id="inp-pings" class="custom-slider" min="1" max="100" value="15" oninput="updatePingLabel(); calculateAll()">
                 </div>
 
-                <!-- Sección 3: Retención -->
                 <div class="glass-panel">
                     <div class="panel-header">
                         <i class="fas fa-building-user panel-icon-main"></i>
                         <div>
                             <h3>3. Retention & Output</h3>
+                            <p>Impact of digital fatigue on talent preservation.</p>
                         </div>
                     </div>
-                    <div class="input-row">
-                        <div class="input-half">
-                            <label>Turnover due to Fatigue (%)
-                                <span class="tooltip" data-tip="Percentage of workforce expected to quit yearly specifically due to digital burnout.">
+                    <div class="input-row" style="display: block;">
+                        <div style="margin-bottom: 18px;">
+                            <label style="margin-bottom: 4px;">Digital Burnout Turnover (%)
+                                <span class="tooltip" data-tip="The percentage of your total workforce lost annually specifically due to digital fatigue and hyper-connection.">
                                     <i class="fas fa-circle-info"></i>
                                 </span>
                             </label>
-                            <input type="number" id="inp-turnover" step="0.1" value="3.0" oninput="calculateAll()">
+                            <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 10px; line-height: 1.4;">
+                                <i class="fas fa-calculator" style="color: var(--accent); font-size: 0.75rem; margin-right: 4px;"></i> 
+                                Rule of thumb: This represents approx. <strong>20% (1 in 5)</strong> of your total annual voluntary turnover.
+                            </p>
+                            <div class="input-with-icon">
+                                <i class="fas fa-user-minus"></i>
+                                <input type="number" id="inp-turnover" step="0.1" value="3.0" oninput="calculateAll()">
+                            </div>
                         </div>
-                        <div class="input-half">
+                        <div>
                             <label>Output Unit Name</label>
-                            <input type="text" id="inp-unit-name" value="Software Features" oninput="calculateAll()">
+                            <div class="input-with-icon">
+                                <i class="fas fa-cubes"></i>
+                                <input type="text" id="inp-unit-name" value="Software Features" oninput="calculateAll()">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- PANEL DERECHO: DASHBOARD DE RESULTADOS -->
             <div class="right-column">
                 
-                <!-- Tarjeta Principal del Gran Total -->
                 <div class="glass-panel total-card glow-border">
                     <div class="total-content">
                         <h4>TOTAL FINANCIAL LEAK (ANNUAL)</h4>
@@ -167,13 +169,11 @@
                         <h1 id="out-total" class="gradient-text">€0</h1>
                         <p class="coi-text">5-Year Cost of Inaction (COI): <span id="out-5year">€0</span></p>
                     </div>
-                    <!-- Icono Vectorial e Institucional del Banco/Tesoro de Fondo -->
                     <div class="icon-professional-institution">
                         <i class="fas fa-building-columns"></i>
                     </div>
                 </div>
 
-                <!-- Desglose de Pérdidas -->
                 <div class="grid-2-cols">
                     <div class="glass-panel stat-card border-red">
                         <p>Productivity Loss</p>
@@ -185,9 +185,7 @@
                     </div>
                 </div>
 
-                <!-- Fila Equilibrada: Gráfica + Unidades Perdidas -->
                 <div class="grid-2-cols chart-row">
-                    <!-- Gráfica de Dona -->
                     <div class="glass-panel chart-card flex-center">
                         <div class="chart-container">
                             <div class="doughnut" id="doughnut-chart">
@@ -200,14 +198,12 @@
                         </div>
                     </div>
 
-                    <!-- Unidades de Negocio Perdidas -->
                     <div class="glass-panel bottom-card flex-col-center">
                         <div class="card-inner-content">
                             <p>Equivalent Output Lost</p>
                             <h2 id="out-units" class="text-warning">0</h2>
                             <p class="unit-label" id="display-unit-name">SOFTWARE FEATURES</p>
                         </div>
-                        <!-- Icono Vectorial de Cajas de Distribución/Entrega -->
                         <div class="icon-professional-output">
                             <i class="fas fa-boxes-packing"></i>
                         </div>
