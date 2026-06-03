@@ -68,6 +68,3 @@ function calculateAll() {
 window.onload = function() {
     calculateAll();
 };
-window.onload = function() {
-    calculateAll();
-};
