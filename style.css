@@ -1,5 +1,5 @@
 :root {
-    --bg-base: #090b10; /* Fondo un punto más oscuro para mayor contraste */
+    --bg-base: #090b10;
     --glass-bg: linear-gradient(135deg, rgba(30, 33, 43, 0.75) 0%, rgba(20, 22, 30, 0.5) 100%);
     --glass-border: rgba(255, 255, 255, 0.08);
     --glass-highlight: rgba(255, 255, 255, 0.15);
@@ -15,7 +15,7 @@
 * { box-sizing: border-box; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
 body { background-color: var(--bg-base); color: var(--text-main); min-height: 100vh; position: relative; overflow-x: hidden; }
 
-/* Scrollbar Personalizado (Detalle Premium) */
+/* Scrollbar Personalizado */
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: var(--bg-base); }
 ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
@@ -43,10 +43,10 @@ body { background-color: var(--bg-base); color: var(--text-main); min-height: 10
 .export-btn { background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.02) 100%); color: white; border: 1px solid var(--glass-highlight); padding: 10px 20px; border-radius: 8px; cursor: pointer; backdrop-filter: blur(5px); transition: all 0.3s ease; font-weight: 600; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
 .export-btn:hover { background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
 
-/* Distribución de la Pantalla */
+/* Distribución de la Pantalla en la Web */
 .dashboard-container { display: grid; grid-template-columns: 1fr 1.8fr; gap: 28px; }
 
-/* Paneles de Cristal 3D (Refinados) */
+/* Paneles de Cristal 3D */
 .glass-panel { 
     background: var(--glass-bg); 
     backdrop-filter: blur(20px); 
@@ -148,15 +148,142 @@ label { display: flex; align-items: center; font-size: 0.85rem; color: #cbd5e1; 
 /* Icono Profesional Vectorial de Logística/Cajas */
 .icon-professional-output { font-size: 4.5rem; opacity: 0.06; position: absolute; right: 30px; top: 50%; transform: translateY(-50%); color: #fff;}
 
-/* Reglas Estrictas de Impresión Limpia */
+
+/* =========================================================
+   REPORTE DE EXPORTACIÓN PDF (FORMATO EJECUTIVO DE 2 PÁGINAS)
+   ========================================================= */
 @media print {
-    body { background: white !important; color: black !important; }
-    .bg-orbs, .no-print { display: none !important; }
-    .dashboard-container { display: block; }
-    .glass-panel { background: white; border: 1px solid #ccc; box-shadow: none; break-inside: avoid; }
-    .gradient-text { background: none; -webkit-text-fill-color: #c0392b; }
-    .inner-circle { background-color: white; }
-    input { color: black !important; }
-    .border-red::before, .border-orange::before { display: none; }
-    .fas { color: black !important; opacity: 1 !important;}
+    /* Configuración de página: A4 vertical, márgenes limpios */
+    @page { size: A4 portrait; margin: 15mm; }
+
+    /* Forzar gráficos y colores de fondo al 100% en el motor del navegador */
+    * { 
+        -webkit-print-color-adjust: exact !important; 
+        print-color-adjust: exact !important; 
+    }
+    
+    body { background: white !important; color: #0f172a !important; }
+    
+    /* 1. OCULTAR UI INTERACTIVA WEB (Botones, orbes, barras deslizables) */
+    .bg-orbs, button.export-btn, .privacy-badge, .tooltip, .custom-slider { 
+        display: none !important; 
+    }
+    
+    /* 2. LAYOUT: DESTRUIR EL GRID PARA QUE OCUPE EL 100% DEL ANCHO Y APILAR VERTICALMENTE */
+    .dashboard-container { 
+        display: block !important; /* Desactiva el modo de columnas (Grid) */
+    }
+    
+    .left-column { 
+        width: 100% !important; 
+        display: block !important;
+        margin-bottom: 40px !important; /* Espacio antes de saltar de página si es necesario */
+    }
+
+    /* SALTO DE PÁGINA MÁGICO: Forzamos que la columna de resultados inicie en la Página 2 */
+    .right-column {
+        width: 100% !important; 
+        display: block !important;
+        page-break-before: always !important; /* Compatibilidad antigua */
+        break-before: page !important;        /* Estándar moderno CSS */
+        padding-top: 10px !important;
+    }
+    
+    /* Simplificar paneles para que parezcan secciones de reporte de Word */
+    .glass-panel { 
+        background: white !important; 
+        border: 1px solid #cbd5e1 !important; 
+        box-shadow: none !important; 
+        border-radius: 8px !important;
+        padding: 20px 24px !important;
+        margin-bottom: 20px !important;
+        break-inside: avoid;
+    }
+    
+    /* Cabecera del informe en papel (Solo en la página 1) */
+    .header-actions.no-print { display: flex !important; border-bottom: 2px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 24px;}
+    .header-title { color: #0f172a !important; font-size: 1.4rem !important;}
+
+    /* Ajuste de colores de texto nítidos para impresión */
+    h1, h2, h3, h4, p, label, span, .slider-val, .radio-content h4 { color: #0f172a !important; }
+    .text-muted, .panel-header p, .radio-content p { color: #64748b !important; }
+    
+    .gradient-text { background: none !important; -webkit-text-fill-color: #dc2626 !important; color: #dc2626 !important; }
+    .text-warning { color: #d97706 !important; }
+    .coi-text { color: #dc2626 !important; font-weight: 600 !important; font-size: 1.1rem !important;}
+
+    /* ==========================================
+       CONVERSIÓN DE INPUTS DINÁMICOS A REPORTE ESTÁTICO
+       ========================================== */
+       
+    /* Transformar inputs en texto plano en negrita */
+    .input-with-icon i { display: none !important; }
+    .input-with-icon input {
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+        font-size: 1.1rem !important;
+        font-weight: 700 !important;
+        color: #0f172a !important;
+        box-shadow: none !important;
+        margin-bottom: 10px !important;
+    }
+    
+    /* Ocultar las tarjetas de complejidad que NO fueron seleccionadas */
+    .radio-card:not(:has(input:checked)) { 
+        display: none !important; 
+    }
+    
+    /* Quitar el diseño de botón a la tarjeta activa para que sea un bloque de texto plano */
+    .radio-card input:checked + .radio-content { 
+        background: transparent !important; 
+        border: none !important; 
+        padding: 0 !important; 
+        margin: 0 !important; 
+        box-shadow: none !important;
+    }
+    .radio-circle { display: none !important; } /* Ocultar el círculo check del formulario */
+
+    /* Estilizar la métrica de Pings ya que no tiene barra deslizante debajo */
+    .slider-header { margin-top: 5px !important; }
+    .slider-val { background: #f1f5f9 !important; font-size: 1rem !important; padding: 6px 14px !important; font-weight: 600 !important; border: 1px solid #cbd5e1 !important; border-radius: 6px !important;}
+
+    /* Compactar espacios verticales y afinar íconos */
+    .panel-header { margin-bottom: 16px !important; }
+    .panel-icon-main { font-size: 1.5rem !important; color: #475569 !important; }
+    
+    /* SOLUCIÓN AL CÍRCULO ELÍPTICO: Forzar dimensiones cuadradas perfectas en el contenedor de impresión */
+    .chart-card {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+    .chart-container {
+        gap: 30px !important;
+    }
+    .doughnut { 
+        width: 130px !important; 
+        height: 130px !important; 
+        min-width: 130px !important;
+        min-height: 130px !important;
+        aspect-ratio: 1 / 1 !important; /* Fuerza proporción circular estricta */
+    }
+    .inner-circle { 
+        width: 90px !important; 
+        height: 90px !important; 
+        min-width: 90px !important;
+        min-height: 90px !important;
+        background-color: white !important; 
+        box-shadow: inset 0 2px 5px rgba(0,0,0,0.05) !important;
+    }
+    
+    .dot.red { background: #dc2626 !important; }
+    .dot.orange { background: #d97706 !important; }
+    
+    /* Ajuste elegante de los iconos vectoriales de fondo */
+    .icon-professional-institution { opacity: 0.04 !important; color: #dc2626 !important; font-size: 5rem !important;}
+    .icon-professional-output { opacity: 0.04 !important; color: #d97706 !important; font-size: 4rem !important;}
+    
+    /* Limpiar elementos decorativos innecesarios en la hoja */
+    .border-red::before, .border-orange::before, .glow-border::before { display: none !important; }
 }
