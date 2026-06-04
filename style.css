@@ -39,15 +39,16 @@ body { background-color: var(--bg-base); color: var(--text-main); min-height: 10
 .logo-dots { display: flex; flex-direction: column; gap: 3px; }
 .logo-dots span { width: 6px; height: 6px; background: var(--danger); border-radius: 50%; box-shadow: 0 0 8px rgba(231, 76, 60, 0.6); }
 
-.privacy-badge { background-color: rgba(255,255,255,0.03); color: var(--text-muted); padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; border: 1px solid var(--glass-border); display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-.export-btn { background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.02) 100%); color: white; border: 1px solid var(--glass-highlight); padding: 10px 20px; border-radius: 8px; cursor: pointer; backdrop-filter: blur(5px); transition: all 0.3s ease; font-weight: 600; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-.export-btn:hover { background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
+.privacy-badge { background-color: rgba(255,255,255,0.03); color: var(--text-muted); padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; border: 1px solid var(--glass-border); display: flex; align-items: center; gap: 8px; }
+.export-btn { background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.02) 100%); color: white; border: 1px solid var(--glass-highlight); padding: 10px 20px; border-radius: 8px; cursor: pointer; backdrop-filter: blur(5px); transition: all 0.3s ease; font-weight: 600; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; }
+.export-btn:hover { background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%); transform: translateY(-2px); }
 
-/* Distribución de la Pantalla en la Web */
+/* Distribución de la Pantalla */
 .dashboard-container { display: grid; grid-template-columns: 1fr 1.8fr; gap: 28px; }
 
 /* Paneles de Cristal 3D */
-.glass-panel { 
+.glass-panel, .total-card, .stat-card, .chart-card { 
+    position: relative;
     background: var(--glass-bg); 
     backdrop-filter: blur(20px); 
     -webkit-backdrop-filter: blur(20px); 
@@ -59,231 +60,150 @@ body { background-color: var(--bg-base); color: var(--text-main); min-height: 10
     border-right: 1px solid rgba(255,255,255,0.02);
     border-bottom: 1px solid rgba(255,255,255,0.02);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.1); 
-    transition: transform 0.3s ease;
 }
 
-/* Tooltips */
+/* Subtítulos descriptivos (Ajustados para menor peso visual) */
+.card-subtitle { 
+    font-size: 0.65rem; 
+    color: var(--text-muted); 
+    margin-top: 4px; 
+    font-weight: 400; 
+    letter-spacing: 0.2px; 
+    opacity: 0.8; 
+}
+
+/* Cheat Sheet Oculto (Red de Seguridad) */
+.math-tooltip { position: absolute; bottom: 12px; right: 15px; color: rgba(255, 255, 255, 0.12); font-size: 0.8rem; cursor: help; transition: all 0.3s ease; z-index: 5; }
+.math-tooltip:hover { color: var(--text-muted); }
+.math-tooltip::after { content: attr(data-math); position: absolute; right: 0; bottom: 150%; background: rgba(15, 17, 26, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(92, 107, 192, 0.4); color: #a5b4fc; padding: 10px 14px; border-radius: 8px; font-family: monospace; font-size: 0.75rem; white-space: pre; width: max-content; opacity: 0; pointer-events: none; transform: translateY(5px); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 10px 25px rgba(0,0,0,0.6); line-height: 1.6; }
+.math-tooltip:hover::after { opacity: 1; transform: translateY(0); }
+
+/* Tooltips Generales */
 .tooltip { margin-left: 8px; color: rgba(255,255,255,0.4); font-size: 0.85rem; cursor: help; position: relative; transition: color 0.2s;}
-.tooltip::after { content: attr(data-tip); position: absolute; left: 50%; transform: translateX(-50%) translateY(10px); bottom: 140%; background: rgba(15, 17, 26, 0.95); backdrop-filter: blur(10px); border: 1px solid var(--glass-border); color: #fff; padding: 10px 14px; border-radius: 8px; font-size: 0.75rem; white-space: normal; width: 220px; text-align: center; opacity: 0; pointer-events: none; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); z-index: 10; box-shadow: 0 10px 25px rgba(0,0,0,0.5); font-weight: 400;}
+.tooltip::after { content: attr(data-tip); position: absolute; left: 50%; transform: translateX(-50%) translateY(10px); bottom: 140%; background: rgba(15, 17, 26, 0.95); backdrop-filter: blur(10px); border: 1px solid var(--glass-border); color: #fff; padding: 10px 14px; border-radius: 8px; font-size: 0.75rem; white-space: normal; width: 220px; text-align: center; opacity: 0; pointer-events: none; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); z-index: 10; font-weight: 400;}
 .tooltip:hover::after { opacity: 1; transform: translateX(-50%) translateY(0); }
 .tooltip:hover { color: var(--accent); }
 
 .panel-header { display: flex; align-items: center; gap: 15px; margin-bottom: 28px; }
-.panel-icon-main { font-size: 1.8rem; color: #fff; opacity: 0.9; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));}
-h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 4px; color: #fff; letter-spacing: -0.2px;}
-.panel-header p { font-size: 0.8rem; color: var(--text-muted); }
+.panel-icon-main { font-size: 1.8rem; color: #fff; opacity: 0.9; }
+h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 4px; color: #fff; }
 
 label { display: flex; align-items: center; font-size: 0.85rem; color: #cbd5e1; margin-bottom: 8px; font-weight: 500; }
 
-/* Estilos de Inputs Corporativos Premium */
+/* Inputs Corporativos */
 .input-with-icon { position: relative; width: 100%; margin-bottom: 18px;}
 .input-with-icon i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,0.3); font-size: 0.9rem; transition: 0.3s;}
-.input-with-icon input { width: 100%; padding: 14px 14px 14px 40px; background: rgba(12, 14, 20, 0.6); border: 1px solid var(--glass-border); color: white; border-radius: 10px; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); font-size: 0.95rem; margin-bottom: 0; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);}
-.input-with-icon input:focus { outline: none; border-color: rgba(92, 107, 192, 0.6); background: rgba(12, 14, 20, 0.8); box-shadow: inset 0 2px 4px rgba(0,0,0,0.2), 0 0 0 3px rgba(92, 107, 192, 0.15);}
+.input-with-icon input { width: 100%; padding: 14px 14px 14px 40px; background: rgba(12, 14, 20, 0.6); border: 1px solid var(--glass-border); color: white; border-radius: 10px; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); font-size: 0.95rem; margin-bottom: 0;}
+.input-with-icon input:focus { outline: none; border-color: rgba(92, 107, 192, 0.6); background: rgba(12, 14, 20, 0.8); }
 .input-with-icon input:focus + i { color: #fff; opacity: 1;}
 
 .input-row { display: flex; gap: 15px; }
 .input-half { flex: 1; }
 
-/* Tarjetas de Selección de Complejidad (Con Hover 3D) */
+/* Radio Cards (Complejidad) */
 .radio-group { display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
 .radio-card { cursor: pointer; display: block; }
 .radio-card input { display: none; }
-.radio-content { display: flex; align-items: center; gap: 15px; padding: 14px 16px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); border-radius: 10px; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: inset 0 1px 0 rgba(255,255,255,0.05); }
-.radio-card:hover .radio-content { transform: translateY(-2px); background: rgba(255,255,255,0.03); box-shadow: 0 4px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.05); }
-.radio-circle { width: 18px; height: 18px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.3); display: block; position: relative; transition: all 0.2s;}
+.radio-content { display: flex; align-items: center; gap: 15px; padding: 14px 16px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); border-radius: 10px; transition: all 0.3s; }
+.radio-card:hover .radio-content { transform: translateY(-2px); background: rgba(255,255,255,0.03); }
+.radio-circle { width: 18px; height: 18px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.3); display: block; position: relative;}
 .radio-card input:checked + .radio-content { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.3); }
 .radio-card input:checked + .radio-content .radio-circle { border-color: #fff; }
-.radio-card input:checked + .radio-content .radio-circle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 8px; height: 8px; background: #fff; border-radius: 50%; box-shadow: 0 0 6px rgba(255,255,255,0.8);}
+.radio-card input:checked + .radio-content .radio-circle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 8px; height: 8px; background: #fff; border-radius: 50%; }
 .radio-content h4 { font-size: 0.9rem; font-weight: 600; color: #fff;}
 .radio-content p { font-size: 0.75rem; color: var(--text-muted); margin-top: 3px; }
 
-/* Slider Deslizante */
+/* Sliders */
 .slider-header { display: flex; justify-content: space-between; align-items: center; }
 .slider-val { font-size: 0.85rem; color: var(--text-muted); background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 20px;}
 #ping-val { font-weight: bold; color: white; }
-.custom-slider { -webkit-appearance: none; width: 100%; height: 6px; background: rgba(0,0,0,0.4); border-radius: 3px; outline: none; margin: 18px 0; box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);}
-.custom-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: #fff; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.4), 0 0 0 4px rgba(255,255,255,0.1); transition: transform 0.2s; }
+.custom-slider { -webkit-appearance: none; width: 100%; height: 6px; background: rgba(0,0,0,0.4); border-radius: 3px; outline: none; margin: 18px 0; }
+.custom-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: #fff; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.4); transition: transform 0.2s; }
 .custom-slider::-webkit-slider-thumb:hover { transform: scale(1.1); }
 
-/* Tarjeta de Gran Total Financiero */
-.total-card { display: flex; justify-content: space-between; align-items: center; padding: 40px 35px; position: relative; overflow: hidden; }
-.glow-border::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--red-gradient); border-radius: 16px 16px 0 0; box-shadow: 0 2px 15px rgba(231, 76, 60, 0.4);}
+/* Tarjeta de Total */
+.total-card { display: flex; justify-content: space-between; align-items: center; padding: 40px 35px; overflow: hidden; }
+.glow-border::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--red-gradient); border-radius: 16px 16px 0 0; }
 .total-content h4 { font-size: 0.8rem; color: var(--text-muted); letter-spacing: 1.5px; margin-bottom: 6px; font-weight: 700; text-transform: uppercase;}
-.total-content p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px; }
-.gradient-text { font-size: 4rem; font-weight: 700; background: var(--red-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -2px; filter: drop-shadow(0 4px 12px rgba(231, 76, 60, 0.2));}
-.coi-text { color: #ff8a8a; font-size: 0.95rem; margin-top: 10px !important; font-weight: 500; letter-spacing: 0.3px;}
+.gradient-text { font-size: 4rem; font-weight: 700; background: var(--red-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -2px; }
+.coi-text { color: #ff8a8a; font-size: 0.95rem; margin-top: 10px !important; font-weight: 500;}
+.icon-professional-institution { font-size: 5rem; position: absolute; right: 35px; top: 50%; transform: translateY(-50%); color: var(--danger); opacity: 0.08; }
 
-/* Icono Profesional Vectorial de Institución en el fondo */
-.icon-professional-institution { font-size: 5rem; position: absolute; right: 35px; top: 50%; transform: translateY(-50%); color: var(--danger); opacity: 0.08; filter: drop-shadow(0 0 10px var(--danger)); transition: opacity 0.3s;}
-.total-card:hover .icon-professional-institution { opacity: 0.12; }
-
-/* Bloques de Desglose */
+/* Grid de Resultados Secundarios */
 .grid-2-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
-.stat-card { position: relative; overflow: hidden; }
 .stat-card p { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;}
 .stat-card h2 { font-size: 2rem; font-weight: 700; color: #fff; letter-spacing: -0.5px;}
 .border-red::before { content:''; position:absolute; left:0; top:0; height:100%; width:4px; background: rgba(231, 76, 60, 0.6); border-radius: 16px 0 0 16px;}
 .border-orange::before { content:''; position:absolute; left:0; top:0; height:100%; width:4px; background: rgba(211, 84, 0, 0.6); border-radius: 16px 0 0 16px;}
 
-/* Fila de Gráfico e Impacto de Output */
+/* Fila Inferior (Dona y Outputs) */
 .chart-row { align-items: stretch; margin-bottom: 0; }
 .flex-center { display: flex; justify-content: center; align-items: center; }
 .chart-container { display: flex; align-items: center; gap: 35px; }
 
-/* Gráfico de Dona Vectorial por CSS */
-.doughnut { width: 140px; height: 140px; border-radius: 50%; background: conic-gradient(var(--danger) calc(var(--pct) * 1%), var(--warning) 0); display: flex; justify-content: center; align-items: center; box-shadow: inset 0 0 25px rgba(0,0,0,0.6), 0 5px 15px rgba(0,0,0,0.3); transition: background 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
-.inner-circle { width: 96px; height: 96px; border-radius: 50%; background-color: #161923; box-shadow: inset 0 4px 10px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05); }
+.doughnut { width: 140px; height: 140px; border-radius: 50%; background: conic-gradient(var(--danger) calc(var(--pct) * 1%), var(--warning) 0); display: flex; justify-content: center; align-items: center; box-shadow: inset 0 0 25px rgba(0,0,0,0.6); transition: background 0.5s; }
+.inner-circle { width: 96px; height: 96px; border-radius: 50%; background-color: #161923; box-shadow: inset 0 4px 10px rgba(0,0,0,0.6); }
 .chart-legend { display: flex; flex-direction: column; gap: 16px; font-size: 0.85rem; color: var(--text-muted); font-weight: 500;}
-.dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 10px; box-shadow: 0 0 8px rgba(0,0,0,0.5);}
+.dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 10px; }
 .dot.red { background: var(--danger); }
 .dot.orange { background: var(--warning); }
 
-/* Bloque de Unidades Perdidas */
-.flex-col-center { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0; position: relative; }
-.text-warning { color: var(--warning); font-size: 3rem; font-weight: 700; margin: 5px 0; letter-spacing: -1px; text-shadow: 0 4px 12px rgba(245, 158, 11, 0.15);}
-.card-inner-content p { font-size: 0.85rem; color: var(--text-muted); margin: 0; font-weight: 500;}
-.unit-label { font-size: 0.75rem !important; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px !important; opacity: 0.8;}
-
-/* Icono Profesional Vectorial de Logística/Cajas */
+.flex-col-center { display: flex; justify-content: space-between; align-items: center; position: relative; }
+.text-warning { color: var(--warning); font-size: 3rem; font-weight: 700; margin: 5px 0; letter-spacing: -1px;}
+.card-inner-content p { margin: 0; font-weight: 500;}
+.unit-label { font-size: 0.75rem !important; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px !important;}
 .icon-professional-output { font-size: 4.5rem; opacity: 0.06; position: absolute; right: 30px; top: 50%; transform: translateY(-50%); color: #fff;}
 
-
 /* =========================================================
-   REPORTE DE EXPORTACIÓN PDF (FORMATO EJECUTIVO DE 2 PÁGINAS)
+   FORMATO PDF DE IMPRESIÓN (2 PÁGINAS EJECUTIVAS)
    ========================================================= */
 @media print {
-    /* Configuración de página: A4 vertical, márgenes limpios */
     @page { size: A4 portrait; margin: 15mm; }
-
-    /* Forzar gráficos y colores de fondo al 100% en el motor del navegador */
-    * { 
-        -webkit-print-color-adjust: exact !important; 
-        print-color-adjust: exact !important; 
-    }
-    
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
     body { background: white !important; color: #0f172a !important; }
     
-    /* 1. OCULTAR UI INTERACTIVA WEB (Botones, orbes, barras deslizables) */
-    .bg-orbs, button.export-btn, .privacy-badge, .tooltip, .custom-slider { 
-        display: none !important; 
-    }
+    /* Ocultar UI interactiva y tooltips matemáticos */
+    .bg-orbs, button.export-btn, .privacy-badge, .tooltip, .custom-slider, .math-tooltip { display: none !important; }
     
-    /* 2. LAYOUT: DESTRUIR EL GRID PARA QUE OCUPE EL 100% DEL ANCHO Y APILAR VERTICALMENTE */
-    .dashboard-container { 
-        display: block !important; /* Desactiva el modo de columnas (Grid) */
-    }
+    /* Salto de página */
+    .dashboard-container { display: block !important; }
+    .left-column { width: 100% !important; display: block !important; margin-bottom: 40px !important; }
+    .right-column { width: 100% !important; display: block !important; page-break-before: always !important; break-before: page !important; padding-top: 10px !important; }
     
-    .left-column { 
-        width: 100% !important; 
-        display: block !important;
-        margin-bottom: 40px !important; /* Espacio antes de saltar de página si es necesario */
-    }
-
-    /* SALTO DE PÁGINA MÁGICO: Forzamos que la columna de resultados inicie en la Página 2 */
-    .right-column {
-        width: 100% !important; 
-        display: block !important;
-        page-break-before: always !important; /* Compatibilidad antigua */
-        break-before: page !important;        /* Estándar moderno CSS */
-        padding-top: 10px !important;
-    }
+    /* Adaptar paneles de cristal a papel */
+    .glass-panel { background: white !important; border: 1px solid #cbd5e1 !important; box-shadow: none !important; border-radius: 8px !important; padding: 20px 24px !important; margin-bottom: 20px !important; break-inside: avoid; }
     
-    /* Simplificar paneles para que parezcan secciones de reporte de Word */
-    .glass-panel { 
-        background: white !important; 
-        border: 1px solid #cbd5e1 !important; 
-        box-shadow: none !important; 
-        border-radius: 8px !important;
-        padding: 20px 24px !important;
-        margin-bottom: 20px !important;
-        break-inside: avoid;
-    }
-    
-    /* Cabecera del informe en papel (Solo en la página 1) */
     .header-actions.no-print { display: flex !important; border-bottom: 2px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 24px;}
     .header-title { color: #0f172a !important; font-size: 1.4rem !important;}
 
-    /* Ajuste de colores de texto nítidos para impresión */
+    /* Contraste corporativo nítido */
     h1, h2, h3, h4, p, label, span, .slider-val, .radio-content h4 { color: #0f172a !important; }
-    .text-muted, .panel-header p, .radio-content p { color: #64748b !important; }
-    
+    .text-muted, .panel-header p, .radio-content p, .card-subtitle { color: #64748b !important; }
     .gradient-text { background: none !important; -webkit-text-fill-color: #dc2626 !important; color: #dc2626 !important; }
     .text-warning { color: #d97706 !important; }
     .coi-text { color: #dc2626 !important; font-weight: 600 !important; font-size: 1.1rem !important;}
 
-    /* ==========================================
-       CONVERSIÓN DE INPUTS DINÁMICOS A REPORTE ESTÁTICO
-       ========================================== */
-       
-    /* Transformar inputs en texto plano en negrita */
+    /* Convertir inputs en texto de reporte */
     .input-with-icon i { display: none !important; }
-    .input-with-icon input {
-        background: transparent !important;
-        border: none !important;
-        padding: 0 !important;
-        font-size: 1.1rem !important;
-        font-weight: 700 !important;
-        color: #0f172a !important;
-        box-shadow: none !important;
-        margin-bottom: 10px !important;
-    }
+    .input-with-icon input { background: transparent !important; border: none !important; padding: 0 !important; font-size: 1.1rem !important; font-weight: 700 !important; color: #0f172a !important; box-shadow: none !important; margin-bottom: 10px !important; }
     
-    /* Ocultar las tarjetas de complejidad que NO fueron seleccionadas */
-    .radio-card:not(:has(input:checked)) { 
-        display: none !important; 
-    }
-    
-    /* Quitar el diseño de botón a la tarjeta activa para que sea un bloque de texto plano */
-    .radio-card input:checked + .radio-content { 
-        background: transparent !important; 
-        border: none !important; 
-        padding: 0 !important; 
-        margin: 0 !important; 
-        box-shadow: none !important;
-    }
-    .radio-circle { display: none !important; } /* Ocultar el círculo check del formulario */
+    .radio-card:not(:has(input:checked)) { display: none !important; }
+    .radio-card input:checked + .radio-content { background: transparent !important; border: none !important; padding: 0 !important; margin: 0 !important; box-shadow: none !important;}
+    .radio-circle { display: none !important; }
 
-    /* Estilizar la métrica de Pings ya que no tiene barra deslizante debajo */
     .slider-header { margin-top: 5px !important; }
     .slider-val { background: #f1f5f9 !important; font-size: 1rem !important; padding: 6px 14px !important; font-weight: 600 !important; border: 1px solid #cbd5e1 !important; border-radius: 6px !important;}
 
-    /* Compactar espacios verticales y afinar íconos */
     .panel-header { margin-bottom: 16px !important; }
     .panel-icon-main { font-size: 1.5rem !important; color: #475569 !important; }
     
-    /* SOLUCIÓN AL CÍRCULO ELÍPTICO: Forzar dimensiones cuadradas perfectas en el contenedor de impresión */
-    .chart-card {
-        display: flex !important;
-        justify-content: center !important;
-        align-items: center !important;
-    }
-    .chart-container {
-        gap: 30px !important;
-    }
-    .doughnut { 
-        width: 130px !important; 
-        height: 130px !important; 
-        min-width: 130px !important;
-        min-height: 130px !important;
-        aspect-ratio: 1 / 1 !important; /* Fuerza proporción circular estricta */
-    }
-    .inner-circle { 
-        width: 90px !important; 
-        height: 90px !important; 
-        min-width: 90px !important;
-        min-height: 90px !important;
-        background-color: white !important; 
-        box-shadow: inset 0 2px 5px rgba(0,0,0,0.05) !important;
-    }
-    
+    /* Configuración de dona perfecta para PDF */
+    .chart-card { display: flex !important; justify-content: center !important; align-items: center !important; }
+    .chart-container { gap: 30px !important; }
+    .doughnut { width: 130px !important; height: 130px !important; min-width: 130px !important; min-height: 130px !important; aspect-ratio: 1 / 1 !important; }
+    .inner-circle { width: 90px !important; height: 90px !important; min-width: 90px !important; min-height: 90px !important; background-color: white !important; box-shadow: inset 0 2px 5px rgba(0,0,0,0.05) !important;}
     .dot.red { background: #dc2626 !important; }
     .dot.orange { background: #d97706 !important; }
     
-    /* Ajuste elegante de los iconos vectoriales de fondo */
     .icon-professional-institution { opacity: 0.04 !important; color: #dc2626 !important; font-size: 5rem !important;}
-    .icon-professional-output { opacity: 0.04 !important; color: #d97706 !important; font-size: 4rem !important;}
-    
-    /* Limpiar elementos decorativos innecesarios en la hoja */
-    .border-red::before, .border-orange::before, .glow-border::before { display: none !important; }
-}
+    .icon-professional-output {
