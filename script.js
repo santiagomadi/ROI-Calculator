@@ -1,70 +1,114 @@
-// Formateadores globales
-const formatEur = new Intl.NumberFormat('en-IE', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
-const formatNum = new Intl.NumberFormat('en-US');
-
-// Sincroniza la etiqueta de texto del slider de pings
-function updatePingLabel() {
-    document.getElementById('ping-val').innerText = document.getElementById('inp-pings').value;
-}
-
-// Motor central de cálculo matemático y financiero
-function calculateAll() {
-    // 1. Captura de datos desde la interfaz
-    let employees = parseFloat(document.getElementById('inp-employees').value) || 0;
-    let baseSalary = parseFloat(document.getElementById('inp-salary').value) || 0;
-    let burden = parseFloat(document.getElementById('inp-burden').value) || 1;
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Elementos del DOM
+    const employeesInput = document.getElementById('employees');
+    const salaryInput = document.getElementById('salary');
+    const burdenInput = document.getElementById('burden');
+    const pingsInput = document.getElementById('pings');
+    const pingsValDisplay = document.getElementById('ping-val');
+    const turnoverInput = document.getElementById('turnover');
+    const unitNameInput = document.getElementById('unit-name');
     
-    // Capturar la tarjeta de complejidad que esté activada (Radio Button)
-    let complexityPenalty = parseFloat(document.querySelector('input[name="complexity"]:checked').value) || 0;
-    
-    let dailyPings = parseFloat(document.getElementById('inp-pings').value) || 0;
-    let turnoverPct = parseFloat(document.getElementById('inp-turnover').value) || 0;
-    let unitName = document.getElementById('inp-unit-name').value || "Units";
+    // Outputs
+    const grandTotalDisplay = document.getElementById('grand-total');
+    const coiDisplay = document.getElementById('coi-total');
+    const prodDisplay = document.getElementById('loss-productivity');
+    const turnDisplay = document.getElementById('loss-turnover');
+    const outputDisplay = document.getElementById('output-lost');
+    const outputLabelDisplay = document.getElementById('output-label-display');
+    const chart = document.getElementById('chart-doughnut');
 
-    // Actualizar nombre dinámico de la unidad en la interfaz
-    document.getElementById('display-unit-name').innerText = unitName;
-
-    // 2. Operaciones Financieras Base (Fully Burdened Labor Cost)
-    let burdenedSalary = baseSalary * burden; 
-    let totalPayroll = employees * burdenedSalary;
-    let costPerMinute = burdenedSalary / 105600; // 220 días laborables * 8 horas * 60 minutos
-
-    // 3. Pérdida Operativa por Fricción (Productivity Loss)
-    let minsLostPerPing = 2 + complexityPenalty; // Tiempo físico de lectura + Resaca cognitiva
-    let minsLostPerDay = minsLostPerPing * dailyPings;
-    let totalMinsLostYearly = minsLostPerDay * 220 * employees;
-    let productivityLoss = totalMinsLostYearly * costPerMinute;
-
-    // 4. Impacto por Deserción y Reclutamiento (Turnover Risk)
-    let turnoverCost = employees * (turnoverPct / 100) * burdenedSalary;
-
-    // 5. Consolidación de Totales y Costo a Largo Plazo (5-Year COI)
-    let totalLeak = productivityLoss + turnoverCost;
-    let fiveYearCOI = totalLeak * 5;
-
-    // 6. Equivalencia Operativa de Unidades de Negocio Perdidas
-    let lossPercentage = totalLeak / totalPayroll;
-    let totalCapacity = employees * 100; // Capacidad teórica base de 100 unidades por persona/año
-    let equivalentOutputLost = totalCapacity * lossPercentage;
-
-    // 7. Inyección de Resultados en el HTML con formatos limpios
-    document.getElementById('out-prod-loss').innerText = formatEur.format(productivityLoss);
-    document.getElementById('out-turnover-cost').innerText = formatEur.format(turnoverCost);
-    document.getElementById('out-total').innerText = formatEur.format(totalLeak);
-    document.getElementById('out-5year').innerText = formatEur.format(fiveYearCOI);
-    document.getElementById('out-units').innerText = formatNum.format(Math.round(equivalentOutputLost));
-
-    // 8. Actualización Dinámica del Gráfico de Dona por Variables CSS
-    if (totalLeak > 0) {
-        let prodPct = (productivityLoss / totalLeak) * 100;
-        // Cambia la variable CSS '--pct' para redibujar el gradiente cónico de la dona
-        document.getElementById('doughnut-chart').style.setProperty('--pct', prodPct);
-    } else {
-        document.getElementById('doughnut-chart').style.setProperty('--pct', 0);
+    // 2. Formateadores Profesionales
+    function formatEuros(num) {
+        return new Intl.NumberFormat('en-IE', { 
+            style: 'currency', 
+            currency: 'EUR', 
+            maximumFractionDigits: 0 
+        }).format(num);
     }
-}
 
-// Ejecutar automáticamente el cálculo inicial cuando la página termine de cargar
-window.onload = function() {
-    calculateAll();
-};
+    function formatUnits(num) {
+        return new Intl.NumberFormat('en-US', { 
+            maximumFractionDigits: 0 
+        }).format(num);
+    }
+
+    // 3. Motor Financiero y Matemático Principal
+    function calculateROI() {
+        // Capturar valores
+        const employees = parseFloat(employeesInput.value) || 0;
+        const baseSalary = parseFloat(salaryInput.value) || 0;
+        const burdenFactor = parseFloat(burdenInput.value) || 1;
+        const dailyPings = parseFloat(pingsInput.value) || 0;
+        const turnoverPct = parseFloat(turnoverInput.value) || 0;
+        
+        // Obtener penalización por complejidad (5, 12, o 25 min)
+        const complexityRadio = document.querySelector('input[name="complexity"]:checked');
+        const recoveryPenalty = complexityRadio ? parseFloat(complexityRadio.value) : 25;
+
+        // Fórmulas Financieras Core
+        const fullyBurdenedSalary = baseSalary * burdenFactor;
+        const totalPayroll = employees * fullyBurdenedSalary;
+        const costPerMinute = fullyBurdenedSalary / 105600; // 220 días * 8 horas * 60 min
+
+        // Costo de Fricción (Productividad)
+        const minsLostPerPing = 2 + recoveryPenalty; // Tiempo físico + Hangover cognitivo
+        const totalYearlyMinsLost = minsLostPerPing * dailyPings * 220 * employees;
+        const productivityLoss = totalYearlyMinsLost * costPerMinute;
+
+        // Costo de Retención (Burnout)
+        const turnoverRiskCost = employees * (turnoverPct / 100) * fullyBurdenedSalary;
+
+        // Totales y Proyecciones
+        const totalFinancialLeak = productivityLoss + turnoverRiskCost;
+        const costOfInaction5Y = totalFinancialLeak * 5;
+
+        // Impacto Operativo
+        let systemicLossPct = 0;
+        if (totalPayroll > 0) {
+            systemicLossPct = totalFinancialLeak / totalPayroll;
+        }
+        // Asume 100 unidades de capacidad teórica por empleado al año
+        const equivalentOutputLost = (employees * 100) * systemicLossPct;
+
+        // 4. Actualización Visual de la Interfaz
+        grandTotalDisplay.textContent = formatEuros(totalFinancialLeak);
+        coiDisplay.textContent = `5-Year Cost of Inaction (COI): ${formatEuros(costOfInaction5Y)}`;
+        
+        prodDisplay.textContent = formatEuros(productivityLoss);
+        turnDisplay.textContent = formatEuros(turnoverRiskCost);
+        
+        outputDisplay.textContent = formatUnits(equivalentOutputLost);
+
+        // Actualizar la Gráfica de Dona (Conic Gradient)
+        let chartPercentage = 0;
+        if (totalFinancialLeak > 0) {
+            chartPercentage = (productivityLoss / totalFinancialLeak) * 100;
+        }
+        chart.style.setProperty('--pct', chartPercentage);
+    }
+
+    // 5. Listeners de Eventos en Tiempo Real
+    const allInputs = document.querySelectorAll('input');
+    allInputs.forEach(input => {
+        input.addEventListener('input', (e) => {
+            // Actualizar etiqueta del slider en vivo
+            if (e.target.id === 'pings') {
+                pingsValDisplay.textContent = e.target.value;
+            }
+            // Actualizar el nombre de la unidad operativa en vivo
+            if (e.target.id === 'unit-name') {
+                outputLabelDisplay.textContent = (e.target.value || "UNITS").toUpperCase();
+            }
+            // Recalcular todo en vivo
+            calculateROI();
+        });
+    });
+
+    // Iniciar cálculo por defecto al cargar la página
+    calculateROI();
+});
+
+// Función global para el botón de exportar PDF
+function exportPDF() {
+    window.print();
+}
