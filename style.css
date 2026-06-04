@@ -206,4 +206,6 @@ label { display: flex; align-items: center; font-size: 0.85rem; color: #cbd5e1; 
     .dot.orange { background: #d97706 !important; }
     
     .icon-professional-institution { opacity: 0.04 !important; color: #dc2626 !important; font-size: 5rem !important;}
-    .icon-professional-output {
+    .icon-professional-output { opacity: 0.04 !important; color: #d97706 !important; font-size: 4rem !important;}
+    .border-red::before, .border-orange::before, .glow-border::before { display: none !important; }
+}
